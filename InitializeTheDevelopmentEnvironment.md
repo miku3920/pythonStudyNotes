@@ -3,6 +3,6 @@
 - 安裝 pycharm
 ## 玩了一下有的沒的
 - 在 vscode 裝 neovim（不怎麼好用）
-- 用了一下 codelab
+- 用了一下 colab
 - jupyter 滿方便的
 - 用了一下 pycham 的 debug
