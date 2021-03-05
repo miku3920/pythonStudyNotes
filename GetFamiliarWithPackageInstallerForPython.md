@@ -4,3 +4,7 @@
 - pip install numpy
 - pip install pandas
 - pip uninstall 套件
+## 參觀一下網站
+- pip 的網站
+- numpy 的網站
+- numpy github
