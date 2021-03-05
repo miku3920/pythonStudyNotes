@@ -1,3 +1,7 @@
+## 三種執行 python
+- 用 cmd 直接打指令
+- 用 cmd 執行 python 的檔案
+- 用 ide 執行
 ## 初始化開發環境
 - 安裝 python 3.6.8
 - 安裝 pycharm
