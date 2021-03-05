@@ -31,3 +31,5 @@
 - == 兩個相等
 - \> 大於
 - < 小於
+- True and False
+- True or False  
