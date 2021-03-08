@@ -8,3 +8,8 @@
 - while 裡面加 if
 - while 裡面加 while
 - 九九乘法表
+### list
+- index
+- 用 while 印出內容
+- len
+- sum
