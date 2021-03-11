@@ -1,0 +1,3 @@
+import myfuns
+
+myfuns.super()
