@@ -29,7 +29,7 @@ class Snake():
     def Game(self):
         if self.isNotStart():
             self.timeDelay = 300
-            self.maxlen = 4
+            self.maxlen = 5
             self.scoreX = random.randint(1, 59)
             self.scoreY = random.randint(1, 59)
             self.x = random.randint(1, 59)
@@ -79,30 +79,22 @@ class Snake():
         self.drawPoint(self.x, self.y)
 
     def updateTail(self):
-        if self.shouldShift():
+        if len(self.snakeX) >= self.maxlen:
             x = self.snakeX.pop(0)
             y = self.snakeY.pop(0)
             self.delPoint(x, y)
 
     def updateSnake(self):
         if self.isStart():
-            timeDelay = math.floor(self.timeDelay)
             self.updateHead()
+            self.updateTail()
 
             if self.isDie():
                 self.endGame()
-
             if self.shouldAddScore():
                 self.updateScorePoint()
 
-            self.updateTail()
-
-            if len(self.snakeX) >= self.maxlen:
-                self.shift = True
-            else:
-                self.shift = False
-
-            self.win.after(timeDelay, self.updateSnake)
+            self.win.after(math.floor(self.timeDelay), self.updateSnake)
 
     def updateScorePoint(self):
         self.maxlen += 1
@@ -114,7 +106,7 @@ class Snake():
                 break
         self.drawPoint(self.scoreX, self.scoreY)
         self.c1.create_rectangle(0, 600, 600, 700, fill="#ffffff", outline="")
-        self.c1.create_text(300, 650, text="score: "+str(self.maxlen-4), font=('Helvetica', 20))
+        self.c1.create_text(300, 650, text="score: "+str(self.maxlen-5), font=('Helvetica', 20))
         self.c1.pack()
 
     def drawPoint(self, x, y):
@@ -161,9 +153,6 @@ class Snake():
                 return True
         return False
 
-    def shouldShift(self):
-        return self.shift
-
     def shouldAddScore(self):
         return self.x == self.scoreX and self.y == self.scoreY
 
@@ -173,7 +162,7 @@ class Snake():
         self.c1.create_rectangle(0, 0, 600, 700, fill="#ffffff", outline="")
         self.c1.create_rectangle(4, 4, 595, 595, fill="#dddddd")
         self.c1.create_text(300, 300, text="按任意鍵開始", font=('Helvetica', 24))
-        self.c1.create_text(300, 650, text="score: "+str(self.maxlen-4), font=('Helvetica', 20))
+        self.c1.create_text(300, 650, text="score: "+str(self.maxlen-5), font=('Helvetica', 20))
         self.c1.pack()
 
 
