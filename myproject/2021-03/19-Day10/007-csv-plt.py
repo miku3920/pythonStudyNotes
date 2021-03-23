@@ -11,8 +11,7 @@ path = path[:path.rfind('\\')][:path.rfind('/')]+'\\'
 plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei']
 plt.rcParams['axes.unicode_minus'] = False
 
-# data = pd.read_csv('./myproject/2021-03/19-Day1/環境輻射即時監測資訊歷史資料.csv', header=None, encoding='utf-8').to_numpy()
-data = pd.read_csv(path+'環境輻射即時監測資訊歷史資料.csv', header=None, encoding='utf-8').to_numpy()
+data = pd.read_csv(path+'data.csv', header=None, encoding='utf-8').to_numpy()
 data = np.transpose(data)
 print(np.shape(data))
 

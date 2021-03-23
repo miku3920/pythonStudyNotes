@@ -1,7 +1,7 @@
 {
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true,
     "cSpell.words": [
         "rfind",
-    ]
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
 }
