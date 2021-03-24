@@ -78,7 +78,7 @@ with open(path+'2330.TW.csv', 'r', encoding="utf-8") as fin:
     plt.plot(dateList, closeList, 'r-', label="收盤價")
     plt.xticks(np.arange(0, len(dateList)*1.1, len(dateList)//4))
     plt.yticks(np.arange(0, maxClose*1.1, maxClose//14))
-    plt.title('2330 close')
+    plt.title('2330')
     plt.legend()
 
     plt.subplot(12, 1, (8, 9))
