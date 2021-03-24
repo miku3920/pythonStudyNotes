@@ -8,15 +8,17 @@ path = path[:path.rfind('\\')][:path.rfind('/')]+'\\'
 plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei']
 plt.rcParams['axes.unicode_minus'] = False
 
-dateList = []
-openList = []
-closeList = []
-fiveDayAvgCloseList = []
-closeOpenDiffList = []
-volumeList = []
 with open(path+'2330.TW.csv', 'r', encoding="utf-8") as fin:
     read = csv.reader(fin, delimiter=',')
     header = next(read)
+    read = list(read)
+
+    dateList = []
+    openList = []
+    closeList = []
+    fiveDayAvgCloseList = []
+    closeOpenDiffList = []
+    volumeList = []
 
     maxOpenClose = 0
     maxOpen = 0
@@ -25,24 +27,25 @@ with open(path+'2330.TW.csv', 'r', encoding="utf-8") as fin:
     oldClose = 0
     maxVolume = 0
     oldVolume = 0
-    for row in read:
-        dateList.append(row[0])
+    fiveDaySum = 0
+    for i in range(len(list(read))):
+        dateList.append(read[i][0])
 
         try:
-            open1 = float(row[1])
-            oldOpen = row[1]
+            open1 = float(read[i][1])
+            oldOpen = read[i][1]
         except:
             open1 = float(oldOpen)
 
         try:
-            close = float(row[4])
-            oldClose = row[4]
+            close = float(read[i][4])
+            oldClose = read[i][4]
         except:
             close = float(oldClose)
 
         try:
-            volume = int(row[6])
-            oldVolume = row[6]
+            volume = int(read[i][6])
+            oldVolume = read[i][6]
         except:
             volume = int(oldVolume)
 
@@ -52,7 +55,7 @@ with open(path+'2330.TW.csv', 'r', encoding="utf-8") as fin:
             maxClose = close
         if volume > maxVolume:
             maxVolume = volume
-        openClose = open1-close
+        openClose = close-open1
         if openClose > maxOpenClose:
             maxOpenClose = openClose
 
@@ -61,38 +64,33 @@ with open(path+'2330.TW.csv', 'r', encoding="utf-8") as fin:
         volumeList.append(volume)
         closeOpenDiffList.append(openClose)
 
-    fiveDaySum = 0
-    for i in range(4):
         fiveDaySum += closeList[i]
-        fiveDayAvg = fiveDaySum/(i+1)
+        if i < 5:
+            fiveDayAvg = fiveDaySum/(i+1)
+        else:  # i >= 5
+            fiveDaySum -= closeList[i-5]
+            fiveDayAvg = fiveDaySum/5
         fiveDayAvgCloseList.append(fiveDayAvg)
 
-    for i in range(4, len(closeList)):
-        fiveDaySum = 0
-        for j in range(5):
-            fiveDaySum += closeList[i-j]
-        fiveDayAvg = fiveDaySum/5
-        fiveDayAvgCloseList.append(fiveDayAvg)
-
-    plt.title('2330 close')
     plt.subplot(12, 1, (1, 6))
     plt.plot(dateList, fiveDayAvgCloseList, 'b-', label="五日均線")
     plt.plot(dateList, openList, 'g-', label="開盤價")
     plt.plot(dateList, closeList, 'r-', label="收盤價")
-    plt.xticks(np.arange(0, len(dateList)+10, len(dateList)//4))
-    plt.yticks(np.arange(0, maxClose+10, maxClose//14))
+    plt.xticks(np.arange(0, len(dateList)*1.1, len(dateList)//4))
+    plt.yticks(np.arange(0, maxClose*1.1, maxClose//14))
+    plt.title('2330 close')
     plt.legend()
 
     plt.subplot(12, 1, (8, 9))
     plt.plot(dateList, volumeList, 'r-', label="成交量")
-    plt.xticks(np.arange(0, len(dateList)+10, len(dateList)//4))
-    plt.yticks(np.arange(0, maxVolume+10, maxVolume//4))
+    plt.xticks(np.arange(0, len(dateList)*1.1, len(dateList)//4))
+    plt.yticks(np.arange(0, maxVolume*1.4, maxVolume//3))
     plt.legend()
 
     plt.subplot(12, 1, (11, 12))
-    plt.plot(dateList, closeOpenDiffList, 'k-', label="單日漲跌幅")
-    plt.xticks(np.arange(0, len(dateList)+10, len(dateList)//4))
-    plt.yticks(np.arange(0-maxOpenClose-5, maxOpenClose+5, maxOpenClose*2//4))
+    plt.plot(dateList, closeOpenDiffList, 'k-', label="收盤減開盤")
+    plt.xticks(np.arange(0, len(dateList)*1.1, len(dateList)//4))
+    plt.yticks(np.arange(0-maxOpenClose*1.5, maxOpenClose*2, maxOpenClose))
     plt.legend()
 
     plt.show()
