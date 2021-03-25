@@ -1,7 +1,13 @@
 {
-    "cSpell.words": [
-        "rfind",
-    ],
+    "debug.inlineValues": true,
+    "editor.fontSize": 16,
+    "editor.formatOnSave": true,
+    "editor.renderWhitespace": "all",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "files.autoSave": "afterDelay",
+    "files.eol": "\n",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
+    "python.terminal.executeInFileDir": true,
 }

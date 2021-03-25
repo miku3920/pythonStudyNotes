@@ -5,15 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: 目前檔案",
+            "name": "Python",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "cwd": "${fileDirname}",
-            "env": {
-                "PYTHONPATH": "${cwd}"
-            }
+            "cwd": "${fileDirname}"
         }
     ]
 }
