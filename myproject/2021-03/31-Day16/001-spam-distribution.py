@@ -44,13 +44,9 @@ with open('spam-distribution.csv', 'r', newline='', encoding='utf-8') as fp:
 
         if chat_id not in data['cumulative']:
             data['cumulative'][chat_id] = {}
-        if 'positive_time' not in data['cumulative'][chat_id]:
             data['cumulative'][chat_id]['positive_time'] = [timeStart]
-        if 'negative_time' not in data['cumulative'][chat_id]:
             data['cumulative'][chat_id]['negative_time'] = [timeStart]
-        if 'positive_user_count' not in data['cumulative'][chat_id]:
             data['cumulative'][chat_id]['positive_user_count'] = [0]
-        if 'negative_user_count' not in data['cumulative'][chat_id]:
             data['cumulative'][chat_id]['negative_user_count'] = [0]
 
         if row[1] == '1':
