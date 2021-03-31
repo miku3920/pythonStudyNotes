@@ -1,11 +1,9 @@
+# project 1
 import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
 
-path = __file__
-path = path[:path.rfind('\\')]
 base = '0123456789ABCDEF'
-
 
 def toBase10(string, fromBase):
     fromBase = int(fromBase)
@@ -85,12 +83,12 @@ def setBase(fromSV, fromBaseSV):
 
 
 win = tk.Tk()
-win.wm_title("base conversion")
+win.wm_title("Calc. base by miku3920")
 win.minsize(width=320, height=240)
 win.resizable(width=False, height=False)
 
 # source: https://twitter.com/hosihosinosora/status/1370853127696523267
-img = ImageTk.PhotoImage(Image.open(path+"\\EwY.jpg"))
+img = ImageTk.PhotoImage(Image.open("EwY.jpg"))
 label = tk.Label(win, image=img)
 label.place(x=0, y=0, relwidth=1, relheight=1)
 
