@@ -1,0 +1,11 @@
+line 教學 (sending-push-messages)
+https://developers.line.biz/zh-hant/docs/messaging-api/building-bot/#sending-push-messages
+
+單一用戶: /message/push
+https://developers.line.biz/zh-hant/reference/messaging-api/#send-push-message
+
+多位用戶: /message/multicast
+https://developers.line.biz/zh-hant/reference/messaging-api/#send-multicast-message
+
+所有已加為好友的用戶: /message/broadcast
+https://developers.line.biz/zh-hant/reference/messaging-api/#send-broadcast-message
