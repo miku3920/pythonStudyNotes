@@ -1,0 +1,9 @@
+### selenium
+- 控制瀏覽器
+- https://chromedriver.chromium.org
+- https://selenium-python-zh.readthedocs.io
+### pyautogui
+- 控制滑鼠鍵盤
+- https://automatetheboringstuff.com/chapter18/
+### pywinauto
+- 控制應用程式
