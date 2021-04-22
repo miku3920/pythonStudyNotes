@@ -1,7 +1,7 @@
 __pycache__
 tempCodeRunnerFile.py
 build
-dist
+distIgnore
 *.spec
 req.html
 *.exe
