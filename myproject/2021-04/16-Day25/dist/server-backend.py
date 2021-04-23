@@ -200,6 +200,12 @@ class Model():
     def getQueryComponents(self):
         return dict(qc.split("=") for qc in self.query.split("&"))
 
+    def setTitle(self,title):
+        self.title=title
+
+    def getTitle(self):
+        return self.title
+
     def getNowTime(self):
         return datetime.now()
 
@@ -235,7 +241,6 @@ class Model():
     def saveData(self, path0, data):
         with open(path0, 'w', encoding='utf-8') as f:
             f.write(data)
-
 
 class View():
     def __init__(self, model):
@@ -273,25 +278,28 @@ class View():
 
     def createChart(self):
         return {
-            "chartType": "x-line",
-            "columns": [
-                {
-                    "type": "x",
-                    "field": "Time",
-                    "name": "時間"
-                },
-                {
-                    "type": "y",
-                    "field": "MaxT",
-                    "name": "最高溫度"
-                },
-                {
-                    "type": "y",
-                    "field": "MinT",
-                    "name": "最低溫度"
-                }
-            ],
-            "rows": self.createData()
+            "title":  self.model.getTitle(),
+            "api": {
+                "chartType": "x-line",
+                "columns": [
+                    {
+                        "type": "x",
+                        "field": "Time",
+                        "name": "時間"
+                    },
+                    {
+                        "type": "y",
+                        "field": "MaxT",
+                        "name": "最高溫度"
+                    },
+                    {
+                        "type": "y",
+                        "field": "MinT",
+                        "name": "最低溫度"
+                    }
+                ],
+                "rows": self.createData()
+            }
         }
 
     def createData(self):
@@ -304,7 +312,8 @@ class View():
         for i in range(len(MaxT)):
             time = MaxT[i]['startTime']
             formatTime = datetime.strptime(time[0:19], "%Y-%m-%d %H:%M:%S")
-            strTime = formatTime.strftime("%m/%d")+'　'+weekday[formatTime.weekday()]
+            strTime = formatTime.strftime(
+                "%m/%d")+'　'+weekday[formatTime.weekday()]
             if int(formatTime.strftime("%H")) < 18:
                 strTime += '　白天　' + \
                     PoP12h[i]['elementValue'][0]['value'] + '%'
@@ -363,6 +372,7 @@ class Controller():
         listQ = q.split()
 
         if len(listQ) == 0:
+            self.model.setTitle('臺北市')
             return 'F-D0047-091?locationName=臺北市'
 
         city = ''
@@ -373,14 +383,17 @@ class Controller():
             city = cityName
             q = listQ[1].replace('台', '臺')
 
-        cityApi, townName = self.getCityApiAndTownName(city, q)
+        cityName2, cityApi, townName = self.getCityApiAndTownName(city, q)
 
         if cityApi:
+            self.model.setTitle(cityName2+' '+townName)
             return cityApi+'?locationName='+townName
 
         if cityName:
+            self.model.setTitle(cityName)
             return 'F-D0047-091?locationName='+cityName
 
+        self.model.setTitle('臺北市')
         return 'F-D0047-091?locationName=臺北市'
 
     def getCityName(self, q):
@@ -390,11 +403,17 @@ class Controller():
         return False
 
     def getCityApiAndTownName(self, city, q):
+        if city:
+            for townName in self.model.taiwan[city]:
+                if q in townName:
+                    return city, self.model.cityApi[city], townName
+
         for cityName, townList in self.model.taiwan.items():
             for townName in townList:
                 if q in townName:
-                    return self.model.cityApi[cityName], townName
-        return False, False
+                    return cityName, self.model.cityApi[cityName], townName
+        
+        return False, False, False
 
     def isDateShouldUpdate(self, api):
         model = self.model
