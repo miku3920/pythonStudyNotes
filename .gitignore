@@ -5,3 +5,4 @@ distIgnore
 *.spec
 req.html
 *.exe
+export.html
