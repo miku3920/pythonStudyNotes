@@ -1,0 +1,79 @@
+{
+    "results": [
+        {
+            "address_components": [
+                {
+                    "long_name": "Jianxing Road",
+                    "short_name": "Jianxing Road",
+                    "types": [
+                        "route"
+                    ]
+                },
+                {
+                    "long_name": "Zhongli District",
+                    "short_name": "Zhongli District",
+                    "types": [
+                        "administrative_area_level_3",
+                        "political"
+                    ]
+                },
+                {
+                    "long_name": "Taoyuan City",
+                    "short_name": "Taoyuan City",
+                    "types": [
+                        "administrative_area_level_1",
+                        "political"
+                    ]
+                },
+                {
+                    "long_name": "Taiwan",
+                    "short_name": "TW",
+                    "types": [
+                        "country",
+                        "political"
+                    ]
+                },
+                {
+                    "long_name": "320",
+                    "short_name": "320",
+                    "types": [
+                        "postal_code"
+                    ]
+                }
+            ],
+            "formatted_address": "Jianxing Road, Zhongli District, Taoyuan City, Taiwan 320",
+            "geometry": {
+                "bounds": {
+                    "northeast": {
+                        "lat": 24.9531303,
+                        "lng": 121.2290113
+                    },
+                    "southwest": {
+                        "lat": 24.9467335,
+                        "lng": 121.2257914
+                    }
+                },
+                "location": {
+                    "lat": 24.9499338,
+                    "lng": 121.2271584
+                },
+                "location_type": "GEOMETRIC_CENTER",
+                "viewport": {
+                    "northeast": {
+                        "lat": 24.9531303,
+                        "lng": 121.2290113
+                    },
+                    "southwest": {
+                        "lat": 24.9467335,
+                        "lng": 121.2257914
+                    }
+                }
+            },
+            "place_id": "ChIJ9xIVQk8iaDQRlX6kIjzQShs",
+            "types": [
+                "route"
+            ]
+        }
+    ],
+    "status": "OK"
+}
