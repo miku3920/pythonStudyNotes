@@ -6,3 +6,4 @@ distIgnore
 req.html
 *.exe
 export.html
+*.dot
