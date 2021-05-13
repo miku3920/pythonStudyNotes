@@ -7,3 +7,5 @@ req.html
 *.exe
 export.html
 *.dot
+output.*
+o.*
