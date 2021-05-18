@@ -3,8 +3,8 @@ import cv2
 big_img = cv2.imread('b.jpg')
 small_img = cv2.imread('s.jpg')
 
-big_h, big_w = big_img.shape[0], big_img.shape[1]
-small_h, small_w = small_img.shape[0], small_img.shape[1]
+big_h, big_w, big_rgb = big_img.shape
+small_h, small_w, small_rgb = small_img.shape
 
 y, x = 200, 200
 y_judgment, x_judgment = 1, 1

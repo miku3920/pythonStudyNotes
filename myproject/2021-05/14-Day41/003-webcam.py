@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 small_img = cv2.imread('s.jpg')
-small_h, small_w = small_img.shape[0], small_img.shape[1]
+small_h, small_w, small_rgb = small_img.shape
 
 cap = cv2.VideoCapture(0)
 # cap = cv2.VideoCapture("videoTest.avi")
