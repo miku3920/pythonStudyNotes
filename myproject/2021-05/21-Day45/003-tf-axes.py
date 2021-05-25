@@ -5,12 +5,14 @@ import tensorflow as tf
 import numpy as np
 
 x1 = np.random.random((100, 2)) * -4 - 1
-x2 = np.random.random((100, 2)) * 4 + 1
-x_train = np.concatenate((x1, x2))
+x2 = (np.random.random((100, 2)) * -4 - 1) + np.array([0, 6])
+x3 = np.random.random((100, 2)) * 4 + 1
+x4 = (np.random.random((100, 2)) * 4 + 1) - np.array([0, 6])
+x_train = np.concatenate((x1, x2, x3, x4))
 
 y1 = np.zeros((100,), dtype=int)
 y2 = np.ones((100,), dtype=int)
-y_train = np.concatenate((y1, y2))
+y_train = np.concatenate((y1, y1, y2, y2))
 
 model = tf.keras.models.Sequential([
     tf.keras.layers.Dense(units=1, activation=tf.nn.tanh, input_dim=2),
@@ -39,7 +41,7 @@ X, Y = np.meshgrid(plt_x1, plt_x2)
 x = np.append(X, Y).reshape((2, -1)).transpose()
 print(x.shape)
 print(X.shape)
-Z = model.predict(x)[:, 0].reshape((240, 240))
+Z = model.predict(x)[:, 1].reshape((240, 240))
 
 fig, ax = plt.subplots()
 im = ax.imshow(
@@ -58,7 +60,9 @@ plt.setp(zc, linewidth=4)
 ax.clabel(CS, levels, inline=1, fmt='% 1.1f',
           fontsize=14)
 
-plt.plot(x1[:, 0], x1[:, 1], 'r.')
-plt.plot(x2[:, 0], x2[:, 1], 'b.')
+x_p = np.concatenate((x3, x4))
+x_n = np.concatenate((x1, x2))
+plt.plot(x_p[:, 0], x_p[:, 1], 'r.')
+plt.plot(x_n[:, 0], x_n[:, 1], 'b.')
 ax.set_title('matplotlib.axes.Axes.contour() Example')
 plt.show()
