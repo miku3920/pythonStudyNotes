@@ -20,21 +20,23 @@ y1 = np.zeros((sample,), dtype=int)
 y2 = np.ones((sample,), dtype=int)
 y_train = np.concatenate((y1, y1, y2, y2))
 
-model = Sequential([
-    layers.Dense(3, input_dim=2),
-    layers.Activation('relu'),
-    layers.Dense(2),
-    layers.Activation('softmax')
-])
+model = Sequential()
+model.add(layers.Dense(3, input_dim=2))
+for i in range(3):
+    model.add(layers.Activation('relu'))
+    model.add(layers.Dense(3))
+model.add(layers.Dense(1))
 
 model.compile(
     optimizer='adam',
-    loss='sparse_categorical_crossentropy',
-    metrics=['accuracy']
+    loss='hinge',
+    metrics=['binary_accuracy', 'accuracy']
 )
 
-model.fit(x_train, y_train, epochs=1000, batch_size=10)
+model.fit(x_train, y_train, epochs=300, batch_size=10)
 model.summary()
+
+print(model.predict(np.array([[0.3, -0.3], [-0.3, -0.3]])))
 
 
 def getLayerOutput(i, data):
@@ -52,11 +54,23 @@ def appendColumn(data):
 
 
 def createFrame(input, output, frame=500):
+    if(input.shape[1] == 1):
+        input = appendColumn(input)
+
+    if(output.shape[1] == 1):
+        output = appendColumn(output)
+
     if(input.shape[1] == 2):
         input = appendColumn(input)
 
     if(output.shape[1] == 2):
         output = appendColumn(output)
+
+    if(input.shape[1] > 2):
+        input = input[:, :3]
+
+    if(output.shape[1] > 2):
+        output = output[:, :3]
 
     data = np.linspace((1, 2, 3), (10, 20, 30), frame).reshape((frame, 1, 3))
     for i, o in zip(input, output):
@@ -116,12 +130,12 @@ ax.set_ylim3d([-5.0, 5.0])
 ax.set_ylabel('Y')
 ax.set_zlim3d([-5.0, 5.0])
 ax.set_zlabel('Z')
-ax.set_title('xor by miku3920')
+ax.set_title('xor hinge by miku3920')
 
 # Creating the Animation object
 line_ani = animation.FuncAnimation(
     fig, update, data.shape[0],
-    fargs=(data, p_dots, n_dots), interval=10, blit=False
+    fargs=(data, p_dots, n_dots), interval=1, blit=False
 )
 
 plt.show()
