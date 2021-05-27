@@ -2,8 +2,8 @@
 - 順便練習一下 git
 
 ### 訓練 1
-<video style="width:100%;" src="https://telegra.ph/file/d9e10ad36ce923bc92e82.mp4" preload="auto" autoplay="autoplay" loop="loop" muted="muted"></video>
+[![video](https://img.youtube.com/vi/MmpupQoD_eY/hqdefault.jpg)](https://youtu.be/MmpupQoD_eY)
 ### 訓練 2
-<video style="width:100%;" src="https://telegra.ph/file/b6dcb697a4712def61c13.mp4" preload="auto" autoplay="autoplay" loop="loop" muted="muted"></video>
+[![video](https://img.youtube.com/vi/DkAbyrFuFPY/hqdefault.jpg)](https://youtu.be/DkAbyrFuFPY)
 ### 預測
-<video style="width:100%;" src="https://telegra.ph/file/87dc472eafdf08a3c7006.mp4" preload="auto" autoplay="autoplay" loop="loop" muted="muted"></video>
+[![video](https://img.youtube.com/vi/VF6AWuzfN10/hqdefault.jpg)](https://youtu.be/VF6AWuzfN10)
