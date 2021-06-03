@@ -11,3 +11,7 @@ output.*
 o.*
 model.png
 logs
+*.npy
+*.h5*
+baselines
+checkpoint
