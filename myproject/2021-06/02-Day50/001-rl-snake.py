@@ -335,12 +335,15 @@ env = Snake(5, 6)
 obs = env.reset()
 obs, reward, done, info = env.step(0)
 env.render(mode='cv2')
-cv2.waitKey(0)
+cv2.waitKey(3000)
 cv2.destroyAllWindows()
 nb_actions = env.action_space.n
 
 model = Sequential()
 model.add(layers.Input(shape=(1,) + env.observation_space.shape))
+model.add(layers.Reshape(env.observation_space.shape))
+model.add(layers.Conv2D(64, (1, 1)))
+model.add(layers.Conv2D(32, (3, 3)))
 model.add(layers.Flatten())
 for i in range(3):
     model.add(layers.Dense(1024, swish))
@@ -362,10 +365,10 @@ dqn.save_weights(f'dqn_snake_weights.h5f', overwrite=True)
 
 env.draw()
 env.render(mode='cv2')
-cv2.waitKey(0)
+cv2.waitKey(3000)
 cv2.destroyAllWindows()
 
 dqn.test(env, nb_episodes=5, visualize=True)
 
-cv2.waitKey(0)
+cv2.waitKey(5000)
 cv2.destroyAllWindows()
