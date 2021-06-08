@@ -23,9 +23,12 @@ class Model():
         self.grid_size = grid_size
         self.grid_shape = grid_shape
         self.starting_len = starting_len
+        self.rewardNormalized = []
+        self.rewardNormalizedMaxLen = 1000
         self.history = {'step': [], 'score': []}
 
     def reset(self):
+        self.totalReward = 0
         self.timeDelay = 300
         self.len = self.starting_len
         self.headX, self.headY = self.getRandomXY()
@@ -108,6 +111,33 @@ class Model():
     #     result[:1, :] = scorePoint
     #     result[1:1 + snake.shape[0], :] = snake
     #     return result
+
+    def pushReward(self, reward):
+        self.rewardNormalized.append(reward)
+
+    def popReward(self):
+        return self.rewardNormalized.pop(0)
+
+    def addTotalReward(self, reward):
+        self.totalReward += reward
+
+    def getTotalReward(self):
+        return self.totalReward
+
+    def getNormalizedReward(self):
+        xMax = max(self.rewardNormalized)
+        xMin = min(self.rewardNormalized)
+        x = self.rewardNormalized[-1]
+        return (x - xMin) / (xMax - xMin + 1e-15) * 2 - 1
+
+    def getStandardizationReward(self):
+        xStd = np.std(self.rewardNormalized)
+        xMean = np.mean(self.rewardNormalized)
+        x = self.rewardNormalized[-1]
+        return (x - xMean) / (xStd + 1e-15)
+
+    def getRewardNormalizedLen(self):
+        return len(self.rewardNormalized)
 
     def addHistory(self):
         self.history['step'].append(self.step)
@@ -213,7 +243,8 @@ class Controller():
         self.updateHead()
         self.updateTail()
 
-        reward = -0.001
+        # reward = 0.0
+        reward = (int(self.isCloseToScorePoint()) * 2 - 1) * 0.5 - 0.05
         done = self.isDie()
         info = {}
         if done:
@@ -222,8 +253,23 @@ class Controller():
         if self.shouldAddScore():
             self.model.updatelen()
             self.model.updateTimeDelay()
-            self.updateScorePoint()
-            reward = self.model.getReward()
+            if self.isFinish():
+                done = True
+                reward += 100.0
+            else:
+                self.updateScorePoint()
+            # reward = 1.0
+            reward += self.model.getReward()
+
+        # self.model.addTotalReward(reward)
+        # normalizedReward = 0
+        # if done:
+        #     totalReward = self.model.getTotalReward()
+        #     self.model.pushReward(totalReward)
+        #     if self.model.getRewardNormalizedLen() > self.model.rewardNormalizedMaxLen:
+        #         self.model.popReward()
+
+        #     normalizedReward = self.model.getStandardizationReward()
 
         pos = self.view.getObs()
 
@@ -257,6 +303,12 @@ class Controller():
                 return False
         return True
 
+    def isCloseToScorePoint(self):
+        return (self.model.scoreX > self.model.headX and self.model.xDirection == 1)\
+            or (self.model.scoreX < self.model.headX and self.model.xDirection == -1)\
+            or (self.model.scoreY > self.model.headY and self.model.yDirection == 1)\
+            or (self.model.scoreY < self.model.headY and self.model.yDirection == -1)
+
     def isDie(self):
         if self.model.headX < 1:
             return True
@@ -270,6 +322,9 @@ class Controller():
             if self.model.headX == self.model.snakeX[i] and self.model.headY == self.model.snakeY[i]:
                 return True
         return False
+
+    def isFinish(self):
+        return self.model.len == self.model.grid_size ** 2
 
     def shouldAddScore(self):
         return self.model.headX == self.model.scoreX and self.model.headY == self.model.scoreY
@@ -334,21 +389,21 @@ env = Snake(5, 6)
 
 obs = env.reset()
 obs, reward, done, info = env.step(0)
-env.render(mode='cv2')
-cv2.waitKey(3000)
-cv2.destroyAllWindows()
 nb_actions = env.action_space.n
 
 model = Sequential()
 model.add(layers.Input(shape=(1,) + env.observation_space.shape))
 model.add(layers.Reshape(env.observation_space.shape))
-model.add(layers.Conv2D(64, (1, 1)))
 model.add(layers.Conv2D(32, (3, 3)))
 model.add(layers.Flatten())
 for i in range(3):
     model.add(layers.Dense(1024, swish))
 model.add(layers.Dense(nb_actions))
 print(model.summary())
+
+env.render(mode='cv2')
+cv2.waitKey(3000)
+cv2.destroyAllWindows()
 
 dqn = DQNAgent(
     model=model,
@@ -357,7 +412,7 @@ dqn = DQNAgent(
     target_model_update=1e-2,
     policy=BoltzmannQPolicy()
 )
-dqn.compile(Adam(1e-5), metrics=['mse', 'mae', 'logcosh'])
+dqn.compile(Adam(1e-3), metrics=['mse', 'mae', 'logcosh'])
 
 dqn.fit(env, nb_steps=10000000, visualize=False, verbose=2)
 

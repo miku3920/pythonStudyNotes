@@ -10,4 +10,7 @@
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.terminal.executeInFileDir": true,
+    "cSpell.ignoreWords": [
+        "conv"
+    ],
 }
